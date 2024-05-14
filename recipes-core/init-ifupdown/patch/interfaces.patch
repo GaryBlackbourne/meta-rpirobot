@@ -1,0 +1,15 @@
+diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/interfaces
+index 0acf4cf441..cc0533f935 100644
+--- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/interfaces
++++ b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/interfaces
+@@ -5,7 +5,9 @@ auto lo
+ iface lo inet loopback
+ 
+ # Wireless interfaces
+-iface wlan0 inet dhcp
++iface wlan0 inet static
++      address 192.168.2.1
++      netmasq 255.255.255.0
+ 	wireless_mode managed
+ 	wireless_essid any
+ 	wpa-driver wext
