@@ -1,0 +1,24 @@
+--- ../wpa_supplicant.conf-sane
++++ ../wpa_supplicant.conf-sane
+@@ -2,6 +2,20 @@
+ ctrl_interface_group=0
+ update_config=1
+ 
++# network={
++#       key_mgmt=NONE
++# }
++
++
++# Connect to a WPA2 protected network
+ network={
+-        key_mgmt=NONE
++      ssid="Hyperion"
++      proto=WPA2
++      key_mgmt=WPA-PSK
++      pairwise=CCMP TKIP
++      group=CCMP TKIP
++      scan_ssid=1
++      psk="13243546"
++      priority=10
+ }
++

@@ -1,15 +1,10 @@
 --- a/interfaces
 +++ b/interfaces
-@@ -5,7 +5,11 @@ auto lo
+@@ -5,6 +5,7 @@
  iface lo inet loopback
  
  # Wireless interfaces
 +auto wlan0
--iface wlan0 inet dhcp
-+iface wlan0 inet static
-+	address 192.168.2.1
-+	netmask 255.255.255.0
-+	network 192.168.2.0
+ iface wlan0 inet dhcp
  	wireless_mode managed
  	wireless_essid any
- 	wpa-driver wext

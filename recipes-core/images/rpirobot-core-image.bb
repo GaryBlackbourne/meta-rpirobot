@@ -12,6 +12,10 @@ inherit core-image
 # distro name
 DISTRO = "rpirobot"
 
+# locales
+IMAGE_LINGUAS = "en-us"
+GLIBC_GENERATE_LOCALES = "en_US.UTF-8"
+
 ##########################
 ## Tools configureation ##
 ##########################
@@ -21,6 +25,8 @@ IMAGE_INSTALL += "vim"
 IMAGE_INSTALL += "mc"
 IMAGE_INSTALL += "bash"
 IMAGE_INSTALL += "i2c-tools"
+IMAGE_INSTALL += "tmux"
+IMAGE_INSTALL += "screen"
 
 # pkg management, adds opkg
 IMAGE_FEATURES += "package-management" 
@@ -30,19 +36,38 @@ IMAGE_FEATURES += "package-management"
 ################
 
 # for ap
-IMAGE_INSTALL += "hostapd"
+# IMAGE_INSTALL += "hostapd"
+IMAGE_INSTALL += "wpa-supplicant"
 IMAGE_INSTALL += "iptables"
-IMAGE_INSTALL += "busybox-udhcpd"
+# IMAGE_INSTALL += "busybox-udhcpd"
 
 # for connectivity
 IMAGE_FEATURES += "ssh-server-openssh" 
 IMAGE_FEATURES:remove = "read-only-rootfs"
 
+#################
+## ROS package ##
+#################
+
+IMAGE_INSTALL += "python3-pyserial"
+IMAGE_INSTALL += "ros-rpirobot-interfaces"
+IMAGE_INSTALL += "ros-rpirobot-driver"
+
+# # disable serial consoles for communication with hardware
+# # this variable is used to populate inittab in the sysvinit-inittab do_install
+# # task (meta/recipes-core/sysvinit/)
+# !!!!!!!!!! PUT THIS IN BUILD/CONF/LOCAL.CONF !!!!!!!!!!!
+# SERIAL_CONSOLES = ""
+# SERIAL_CONSOLES_CHECK = ""
+# CMDLINE_SERIAL = ""
+
 #######################
 ## ROS configuration ##
 #######################
 
-ROS_DISTRO = "humble"
+# these are moved into bblayers for some reason :(
+# ROS_DISTRO = "humble"
+# ROS_OE_RELEASE_SERIES = "kirkstone"
 
 inherit ros_distro_${ROS_DISTRO}
 inherit ${ROS_DISTRO_TYPE}_image
@@ -55,6 +80,24 @@ MCF_OPENEMBEDDED_VERSION ?= "4.0.13-kirkstone"
 
 # ROS package groups
 IMAGE_INSTALL += "ros-core"
-# IMAGE_INSTALL += "packagegroup-ros-world-humble" # what is this?
+# IMAGE_INSTALL += "packagegroup-ros-world-humble"
 
-
+IMAGE_INSTALL += "\
+        ros-base \
+        examples-rclcpp-minimal-action-client \
+        examples-rclcpp-minimal-action-server \
+        examples-rclcpp-minimal-client \
+        examples-rclcpp-minimal-composition \
+        examples-rclcpp-minimal-publisher \
+        examples-rclcpp-minimal-service \
+        examples-rclcpp-minimal-subscriber \
+        examples-rclcpp-minimal-timer \
+        examples-rclcpp-multithreaded-executor \
+        examples-rclpy-executors \
+        examples-rclpy-minimal-action-client \
+        examples-rclpy-minimal-action-server \
+        examples-rclpy-minimal-client \
+        examples-rclpy-minimal-publisher \
+        examples-rclpy-minimal-service \
+        examples-rclpy-minimal-subscriber \
+        "
